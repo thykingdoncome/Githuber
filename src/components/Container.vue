@@ -1,6 +1,7 @@
 <template>
-  <div id="testHde">
-    <div id="testHde" class="main-wrapper">
+  <div class="main-container">
+    <Header />
+    <div class="main-wrapper">
       <form @submit.prevent="fetchData">
         <div class="inputs">
           <input
@@ -47,11 +48,12 @@
               </em>
             </div>
             <div class="italic">
-              <!-- <router-link to="/readme"> -->
-                <button @click="fetchReadme(username, item.name)">
+              <!-- <router-link :to="{name: 'Readme', params: {username: userName, repo: item.name}}"> -->
+              <router-link :to="`/readme/${userName}/${item.name}`">
+                <button>
                   View Readme
                 </button>
-              <!-- </router-link> -->
+              </router-link>
 
               <a v-if="item.homepage" :href="item.homepage" target="_blank"
                 ><button>Live Preview</button></a
@@ -59,22 +61,21 @@
             </div>
           </li>
         </ul>
-        <!-- <router-link :to="`/readme/${username}/${repo}`"></router-link> -->
       </div>
     </div>
 
-    <!-- <div id="readme">
-      <div id="readContent" v-html="this.readMe"></div>
-    </div> -->
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import showdown from "showdown";
+import Header from './Header'
 
 export default {
   name: "Container",
+  components: {
+    Header
+  },
   data() {
     return {
       id: "",
@@ -88,7 +89,7 @@ export default {
       joined: "",
       locate: "",
       githuberName: "",
-      readMe: "",
+      // githubUser: {},
       clientId: process.env.VUE_APP_CLIENT_ID,
       clientSecret: process.env.VUE_APP_CLIENT_SECRET,
       apiUrl: process.env.VUE_APP_BASE_URL,
@@ -101,7 +102,7 @@ export default {
         const res = await axios.get(
           `${this.apiUrl}/users/${username}?client_id=${this.clientId}&client_secret=${this.clientSecret}`
         );
-
+        this.githubUser = res.data;
         this.id = res.data.id;
         this.imgSrc = res.data.avatar_url;
         this.pubRepo = res.data.public_repos;
@@ -113,36 +114,28 @@ export default {
         this.githuberName = res.data.name;
         const displayName = this.username;
         this.userName = displayName;
+        console.log('jsjsjsj', this.githubUser);
 
         const resRep = await axios.get(
           `${this.apiUrl}/users/${username}/repos?client_id=${this.clientId}&client_secret=${this.clientSecret}`
         );
         this.repos = resRep.data;
-        this.username = "";
+        // this.username = "";
       } catch (error) {
         this.$swal("User does not exist", "info");
       }
-    },
-
-    async fetchReadme(username, repo) {
-      try {
-        username = this.userName;
-        const path = "README.md";
-        const response = await axios.get(
-          `${this.apiUrl}/repos/${username}/${repo}/contents/${path}?client_id=${this.clientId}&client_secret=${this.clientSecret}`
-        );
-        const rawReadMe = atob(response.data.content);
-        const convert = new showdown.Converter();
-        const html = convert.makeHtml(rawReadMe);
-        this.readMe = html;
-      } catch (error) {
-        this.$swal("Something went Wrong", "error");
-      }
-    },
+    }
   },
-  mounted() {
-    this.fetchData((this.username = "thykingdoncome"));
-  },
+created() {
+  // const saveState = this.githubUser;
+  console.log('useeeerr', this.githubUser)
+  // this.username = this.userName;
+  // if (this.githubUser !== {}) {
+  //   this.username = this.githubUser.username;
+  //   console.log('kkkkkk', saveState);
+  // }
+},
+ 
 };
 </script>
 

@@ -1,25 +1,18 @@
 <template>
   <div id="app">
-   
-    <!-- <Footer /> -->
-        <router-view/>
-         <Header />
-    <Container />
+    <router-view />
+    <Footer />
   </div>
 </template>
 
 <script>
-import Container from "./components/Container.vue";
-import Header from "./components/Header";
-// import Footer from './components/Footer';
+import Footer from "./components/Footer";
 
 export default {
   name: "App",
   components: {
-    Container,
-    Header,
-    // Footer
-  }
+    Footer,
+  },
 };
 </script>
 
@@ -29,13 +22,14 @@ export default {
   padding: 0;
   box-sizing: border-box;
 }
-
 #app {
   background: rgb(212, 211, 211);
-  padding: 1em 1em 0;
+  padding: 1em 0 0;
   min-height: 100vh;
 }
-
+.main-container {
+  min-height: calc(100vh - 64px);
+}
 a {
   text-decoration: none;
   color: rgb(21, 99, 99);
@@ -44,9 +38,20 @@ a:hover {
   text-decoration: wavy;
 }
 
+.read-data {
+  width: 100%;
+  min-height: calc(100vh - 64px);
+  padding: 0 1em;
+  overflow: hidden;
+}
+
+#read-data {
+  margin: 0 auto;
+}
+
 @media screen and (max-width: 780px) {
   #app {
-  padding: .6em .3em 0;
+    padding: 0.6em 0.3em 0;
   }
 }
 </style>
