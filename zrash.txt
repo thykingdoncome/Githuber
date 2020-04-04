@@ -1,0 +1,52 @@
+/* 
+.dark-mode {
+  background-color: black;
+  color: white;
+} */
+.readme {
+  /* position: absolute;
+  top: 0;
+  overflow: hidden;
+  padding: .5em;
+  background: black;
+  color: white;
+  width: 80%;
+  list-style: none;
+  /* margin: 0 auto; * */
+  
+  /* z-index: 9998; */
+ 
+ 
+  /* left: 0; */
+
+  /* display: table; */
+  /* transition: opacity 0.3s ease; */
+}
+
+#readme {
+  display: none;
+ margin: 0 auto;
+  position: fixed;
+   top: 10%;
+     width: 80%;
+     background: black;
+     color: white;
+     border-radius: 4px;
+     padding: 1em;
+  min-height: 80vh;
+  overflow: hidden;
+}
+
+
+  const showReadme = document.getElementById("readme");
+       showReadme.style.display = "block";
+        // showReadme.classList.add("readme");
+        // this.$swal(showReadme);
+
+
+
+          <router-link :to="`/readme/${username}/${repo}`">
+                <button @click="fetchReadme(username, item.name)">
+                  View Readme
+                </button>
+              </router-link>
