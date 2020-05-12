@@ -21,6 +21,9 @@ export default {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  list-style: none;
+  outline: none;
+  text-decoration: none;
 }
 #app {
   background: rgb(212, 211, 211);
@@ -41,7 +44,7 @@ a:hover {
 .read-data {
   width: 100%;
   min-height: calc(100vh - 64px);
-  padding: 0 1em;
+  padding: 0 1rem 0 3rem;
   overflow: hidden;
 }
 
@@ -50,8 +53,6 @@ a:hover {
 }
 
 @media screen and (max-width: 780px) {
-  #app {
-    padding: 0.6em 0.3em 0;
-  }
+
 }
 </style>

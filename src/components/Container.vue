@@ -2,7 +2,7 @@
   <div class="main-container">
     <Header />
     <div class="main-wrapper">
-      <form @submit.prevent="fetchData">
+      <form @submit.prevent="fetchData" autocomplete="on">
         <div class="inputs">
           <input
             type="text"
@@ -63,21 +63,22 @@
         </ul>
       </div>
     </div>
-
   </div>
 </template>
 
 <script>
 import axios from "axios";
-import Header from './Header'
+import Header from "./Header";
 
 export default {
   name: "Container",
   components: {
-    Header
+    Header,
   },
   data() {
     return {
+      githubUser: {},
+      repooo: [],
       id: "",
       username: "",
       userName: "",
@@ -100,9 +101,21 @@ export default {
       try {
         username = this.username;
         const res = await axios.get(
-          `${this.apiUrl}/users/${username}?client_id=${this.clientId}&client_secret=${this.clientSecret}`
+          `${this.apiUrl}/users/${username}`
         );
+
+        const resRep = await axios.get(
+          `${this.apiUrl}/users/${username}/repos?per_page=100`
+        );
+
         this.githubUser = res.data;
+        this.repooo = resRep.data;
+
+        const userr = this.githubUser;
+        const rep = this.repooo;
+
+        console.log("badguys", userr, rep);
+
         this.id = res.data.id;
         this.imgSrc = res.data.avatar_url;
         this.pubRepo = res.data.public_repos;
@@ -114,28 +127,19 @@ export default {
         this.githuberName = res.data.name;
         const displayName = this.username;
         this.userName = displayName;
-        console.log('jsjsjsj', this.githubUser);
+        console.log("jsjsjsj", this.githubUser);
 
-        const resRep = await axios.get(
-          `${this.apiUrl}/users/${username}/repos?client_id=${this.clientId}&client_secret=${this.clientSecret}`
-        );
+        console.log("repos", resRep.data);
         this.repos = resRep.data;
         // this.username = "";
       } catch (error) {
         this.$swal("User does not exist", "info");
       }
-    }
+    },
   },
-created() {
-  // const saveState = this.githubUser;
-  console.log('useeeerr', this.githubUser)
-  // this.username = this.userName;
-  // if (this.githubUser !== {}) {
-  //   this.username = this.githubUser.username;
-  //   console.log('kkkkkk', saveState);
-  // }
-},
- 
+  mounted() {
+    this.fetchData(this.username="thykingdoncome");
+  },
 };
 </script>
 
@@ -279,6 +283,7 @@ li button:hover {
 @media screen and (max-width: 780px) {
   .main-wrapper {
     width: 100%;
+    padding: 0 0.5em;
   }
   .inputs {
     padding: 0;
