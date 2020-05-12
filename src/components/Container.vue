@@ -69,6 +69,15 @@
 <script>
 import axios from "axios";
 import Header from "./Header";
+import dotEnv from 'dotenv'
+
+dotEnv.config()
+
+  const {
+    VUE_APP_BASE_URL,
+     VUE_APP_CLIENT_ID,
+     VUE_APP_CLIENT_SECRET
+     } = process.env
 
 export default {
   name: "Container",
@@ -91,9 +100,9 @@ export default {
       locate: "",
       githuberName: "",
       // githubUser: {},
-      clientId: process.env.VUE_APP_CLIENT_ID,
-      clientSecret: process.env.VUE_APP_CLIENT_SECRET,
-      apiUrl: process.env.VUE_APP_BASE_URL,
+      // clientId: VUE_APP_CLIENT_ID,
+      // clientSecret: VUE_APP_CLIENT_SECRET,
+      // apiUrl: VUE_APP_BASE_URL,
     };
   },
   methods: {
@@ -101,20 +110,20 @@ export default {
       try {
         username = this.username;
         const res = await axios.get(
-          `${this.apiUrl}/users/${username}`
+          `${VUE_APP_BASE_URL}/users/${username}?client_id=${VUE_APP_CLIENT_ID}&client_secret=${VUE_APP_CLIENT_SECRET}`
         );
 
         const resRep = await axios.get(
-          `${this.apiUrl}/users/${username}/repos?per_page=100`
+          `${VUE_APP_BASE_URL}/users/${username}/repos?per_page=100&client_id=${VUE_APP_CLIENT_ID}&client_secret=${VUE_APP_CLIENT_SECRET}`
         );
 
         this.githubUser = res.data;
         this.repooo = resRep.data;
 
-        const userr = this.githubUser;
-        const rep = this.repooo;
+        // const userr = this.githubUser;
+        // const rep = this.repooo;
 
-        console.log("badguys", userr, rep);
+        // console.log("badguys", userr, rep);
 
         this.id = res.data.id;
         this.imgSrc = res.data.avatar_url;
@@ -127,11 +136,11 @@ export default {
         this.githuberName = res.data.name;
         const displayName = this.username;
         this.userName = displayName;
-        console.log("jsjsjsj", this.githubUser);
+        // console.log("jsjsjsj", this.githubUser);
 
-        console.log("repos", resRep.data);
+        // console.log("repos", resRep.data);
         this.repos = resRep.data;
-        // this.username = "";
+        this.username = "";
       } catch (error) {
         this.$swal("User does not exist", "info");
       }
