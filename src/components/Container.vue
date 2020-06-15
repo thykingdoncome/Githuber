@@ -49,7 +49,7 @@
             </div>
             <div class="italic">
               <!-- <router-link :to="{name: 'Readme', params: {username: userName, repo: item.name}}"> -->
-              <router-link :to="`/readme/${userName}/${item.name}`">
+              <router-link :to="`/readme/${userName}/${item.name}`" target="_blank">
                 <button>
                   View Readme
                 </button>
